@@ -1,8 +1,8 @@
 import requests
 
 def upload_image(file_path):
-    # endpoint_url = "https://vehicleobs.onrender.com/api/v1/upload/"
-    endpoint_url = "http://localhost:8000/api/v1/upload/"
+    endpoint_url = "https://vehicleobs.onrender.com/api/v1/upload/"
+    # endpoint_url = "http://localhost:8000/api/v1/upload/"
 
     try:
         with open(file_path, 'rb') as file:
