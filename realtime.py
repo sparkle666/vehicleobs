@@ -34,10 +34,17 @@ def center_position(x, y, w, h):
 
 
 def count_using_bg_sub():
-    print("Inside the main function")
-    CAP = cv2.VideoCapture('video.mp4')
+    ans = input("Enter 'yes' for realtime and 'no' for demo:  ")
+    CAP = None
+
+    if ans.lower() == "yes":
+        CAP = cv2.VideoCapture(0)
+    elif ans.lower() == "no":
+        CAP = cv2.VideoCapture('video.mp4')
+    else:
+        print("Invalid input")
+        return
     # CAP = cv2.VideoCapture(0)
-    print("Video Initialised...")
     # Initialize Background Subtractor
     subtract = cv2.createBackgroundSubtractorMOG2()
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
@@ -55,7 +62,6 @@ def count_using_bg_sub():
         if frame is None:
             break
 
-        print("Frame read successfully...")
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         blur = cv2.GaussianBlur(gray, (3, 3), 5)
 
