@@ -98,7 +98,7 @@ def count_using_bg_sub():
                     image_name = f'vehicle_{time.time()}.png'
                     cv2.imwrite(image_name, vehicle_roi)
                     # upload to server
-                    # upload_image(image_name)
+                    upload_image(image_name)
 
         cv2.putText(
             frame, f"Car Detected: {vehicle_counts}", (50, 70), FONT, 2, RED, 3, cv2.LINE_AA)
