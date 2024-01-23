@@ -1,7 +1,10 @@
 import time
 import cv2
 import numpy as np
-from utils import upload_image
+from utils import upload_image, upload_image_async
+import concurrent.futures
+import asyncio
+
 
 # print(cv2.__file__)
 # upload_image("car.jpg")
@@ -18,7 +21,7 @@ FONT = cv2.FONT_HERSHEY_COMPLEX
 
 # Configuration
 offset = 6
-fps = 60
+fps = 25
 min_width = 80
 min_height = 80
 linePos = 550
@@ -98,7 +101,12 @@ def count_using_bg_sub():
                     image_name = f'vehicle_{time.time()}.png'
                     cv2.imwrite(image_name, vehicle_roi)
                     # upload to server
-                    upload_image(image_name)
+                    # upload_image(image_name)
+                    # await upload_image_async(image_name)
+
+                    # Upload image in a separate thread
+                    with concurrent.futures.ThreadPoolExecutor() as executor:
+                        executor.submit(upload_image, image_name)
 
         cv2.putText(
             frame, f"Car Detected: {vehicle_counts}", (50, 70), FONT, 2, RED, 3, cv2.LINE_AA)
@@ -112,6 +120,8 @@ def count_using_bg_sub():
     CAP.release()
 
     return vehicle_counts
+
+# asyncio.run(count_using_bg_sub())
 
 
 count_using_bg_sub()
